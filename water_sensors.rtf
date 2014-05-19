@@ -7,6 +7,13 @@
 \f0\fs24 \cf0 GOAL: Design/implement software for temperature & flow sensors to get continuous readings of water properties during image acquisition. \
 (Matt, Sean)\
 \
+5/15 --\
+\
+5/14 -- Q: Want to grab info only every 5sec? Monitor stream, and if change > certain value, send data? (this could be coded either in Arduino or in the Python script)\
+-- A: no, want data to be streaming constantly, and python will grab the data when KESM.py asks for it.\
+-- Attempt to map the path of data through source code\'85\
+-- See LatencyCompensated for an example of how info is pulled from external sources. Also see last few lines of KESM.py for more of this "video game reasoning"\
+-- updated getTemp to buffer based on delimiter. \
 \
 \
 5/13 -- Modified source code of Arduino thermocouple to output data at "ping" from Python script, getTemp.py. \

@@ -1,10 +1,52 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf370
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 LucidaGrande;}
 {\colortbl;\red255\green255\blue255;}
-\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\margl1440\margr1440\vieww10800\viewh12180\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
 \f0\fs24 \cf0 GOAL: Detect, record, report stage errors to catch before data quality is affected. \
 (A3200 support, Matt)\
+\
+\
+5/16	-- Do we actually want to use DATAACQ? This can be tied to the PSO\'85\
+	-- if we define the window to have range (500, xxxx) counts, could this work? What do the counts stand for???\
+	-- e-mailed Aerotech for help \
+\
+\
+5/15 	-- Issues: \
+		1. What is the purpose of the Data collection status struct?\
+		2. How to collect the DataCollectionConfigCreate DCC object handle?\
+\
+\
+	-- C:\
+		+ DATASIGNALs are in A3200DataCollectionInfo.h\
+		+ A3200DataCollectionConfigs are in A3200DataCollection.h\
+		Step 1. Create DataCollectionConfig object. \
+		Step 2. DataCollectionConfigAddSignal adds a signal to the object\
+		Step 3. "Apply applies config to the A3200; "Start starts data collection immediately\
+		\
+\
+		Examples: 
+\f1\b [InstallDir]\\Samples\\Cpp\\CLibrary\\
+\f0\b0 	\
+		\
+	-- AEROBASIC: \
+	In A3200.chm > DATAACQ INPUT Command. Flow for DATAACQ commands needs to be:\
+	1. DATAACQ TRIGGER: Can use output from drive's \
+		a. PSO firing event (once/firing event) -- can include distance-based firing and entering/exiting PSO window\
+		b. PSO Output (once/PSO transition from inactive to active state, i.e., capture multiple samples for a single PSO firing event depending on #output pulses generated for each event)	2. DATAACQ INPUT\
+	3. .. ARRAY\
+	4. .. OFF (optional)\
+\
+	What is the difference between DATAACQ and DATACOLLECT and SCOPETRIG??\
+	1. DATAACQ: collect encoder (??) positions or analog inputs and save them to drive array. \
+		External signal or PSO fire signal used to collect data. \
+		Define source of the data acq event & data to be captured (up to 32 bits)\
+	2. DATACOLLECT: configure and trigger data collection from AeroBasic program w.out use of Digital Scope (??). Windows thread monitors data collection\
+		>> uses DATAITEMs: AXISSTATUS(<Axis>, <DataItem>)\
+	3. SCOPETRIG: works in Digital Scope, Motion Designer, Motion Simulator. Triggers data collection in the desired application\
+\
+5/14 -- information re. PSOs & programming same can be found in A3200.chm. \
+	-- want to grab a continuous stream of information and send it to the DB (when?). \
 \
 5/13 Started reading through A3200 documentation, 3Scan wrappers}
